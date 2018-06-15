@@ -16,10 +16,18 @@ void loop() {
   int count = 0;
   while (digitalRead(fourth) != LOW) {
     if (digitalRead(second) == LOW) {
+      count++;
+      if (count > 26) {
+        errorHandle();
+      }
       key = key << 1;
       delay(200);
     }
     if (digitalRead(third) == LOW) {
+      count++;
+      if (count > 26) {
+        errorHandle();
+      }
       key = (key << 1) + 1;
       delay(200);
     }
@@ -31,11 +39,14 @@ void loop() {
       break;
     }
   }
-  Serial.print(key);
   Serial.print(bitConvert(key));
   delay(200);
 }
 
+void errorHandle() {
+  Serial.print("More than 5 bits entered. Error, input reset.");
+  //add LED control code here later?
+}
 char bitConvert(int key) {
   char converted;
   switch(key - 1) {
