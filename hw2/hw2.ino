@@ -2,6 +2,7 @@ int second = A0; //0b0
 int third = A1; //0b1
 int fourth = A2; //enter
 int fifth = A3; //space
+int delayVal = 175; //delay value
   
 void setup() {
   //setting up four pins, for each finger 
@@ -14,39 +15,54 @@ void setup() {
 void loop() {
   int key = 0;
   int count = 0;
+  bool convert = true;
   while (digitalRead(fourth) != LOW) {
     if (digitalRead(second) == LOW) {
       count++;
-      if (count > 26) {
-        errorHandle();
+      if (count > 5) {
+        convert = false;
+        errorHandleOverflow();
+        break;
       }
       key = key << 1;
-      delay(200);
+      delay(delayVal);
     }
     if (digitalRead(third) == LOW) {
       count++;
-      if (count > 26) {
-        errorHandle();
+      if (count > 5) {
+        convert = false;
+        errorHandleOverflow();
+        break;
       }
       key = (key << 1) + 1;
-      delay(200);
+      delay(delayVal);
     }
     
     if (digitalRead(fifth) == LOW) {
       Serial.print(" ");
-      key = 0;
-      delay(200);
+      convert = false;
+      delay(delayVal);
       break;
     }
   }
-  Serial.print(bitConvert(key));
-  delay(200);
+  if (convert) {
+    Serial.print(bitConvert(key));
+  }
+  delay(delayVal);  
 }
 
-void errorHandle() {
+void errorHandleOverflow() {
   Serial.print("More than 5 bits entered. Error, input reset.");
+  delay(delayVal);
   //add LED control code here later?
 }
+
+void errorHandleNoMatch() {
+  Serial.print("5 bit code entered does not match to a character. Error, input reset.");
+  delay(delayVal);
+  //add LED control code here later?
+}
+
 char bitConvert(int key) {
   char converted;
   switch(key - 1) {
@@ -132,6 +148,7 @@ char bitConvert(int key) {
       converted = NULL;
     default:
       converted = NULL;
+      errorHandleNoMatch();
   }
   return converted;
 }
