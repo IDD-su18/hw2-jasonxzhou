@@ -1,0 +1,3 @@
+- LED warning lights system for both types of errors
+- possibly try phonetic input system for higher speed/more interesting input method?
+- construct physical contraption
