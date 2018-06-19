@@ -1,15 +1,24 @@
+//global declarations
 int second = A0; //0b0 key
 int third = A1; //0b1 key
 int fourth = A2; //enter key
 int fifth = A3; //space key
+int LED1 = A4; //capsLock LED
+int LED2 = A5; //error LED
+int LED3 = 24; //okay LED
 int delayVal = 175; //delay value
+bool capFlag = false; //capsLock
 
-//setting up four pins, for each finger 
+
+//pin setup
 void setup() {
   pinMode(second, INPUT);
   pinMode(third, INPUT);
   pinMode(fourth, INPUT);
   pinMode(fifth, INPUT);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
 }
 
 //main
@@ -17,12 +26,11 @@ void loop() {
   int key = 0;
   int count = 0;
   bool convertFlag = true;
-  bool capFlag = false;
   
   while (digitalRead(fourth) != LOW) {
     if (digitalRead(second) == LOW) {
       count++;
-      convertFlag = errorHandleOverflow(count);
+      convertFlag = errorHandler(count, false);
       if (!convertFlag) {
         break;
       }
@@ -31,51 +39,71 @@ void loop() {
     }
     if (digitalRead(third) == LOW) {
       count++;
-      convertFlag = errorHandleOverflow(count);
+      convertFlag = errorHandler(count, false);
       if (!convertFlag) {
         break;
       }
       key = (key << 1) + 1;
       delay(delayVal);
     }
-    
     if (digitalRead(fifth) == LOW) {
       Serial.print(" ");
+      okayLED();
       convertFlag = false;
       key = -1;
       delay(delayVal);
       break;
     }
   }
-  
+
   if (key == 0) {
-    capFlag = !capFlag;  
-    //add LED control code here later?
+    capFlag = !capFlag; 
+    digitalWrite(LED1, capFlag);
   } else {
     if (convertFlag) {
       Serial.print(bitConvert(key, capFlag));
+      okayLED();
     }
   }
-  delay(delayVal);  
+  delay(1.5*delayVal);  
 }
 
-//error handler for more than 5 bit input
-void errorHandleOverflow(int count) {
-  if (count > 5) {
-    Serial.print("More than 5 bits entered. Error, input reset.");
+//LED blink for valid input
+void okayLED(){
+  digitalWrite(LED3, HIGH);
+  delay(300);
+  digitalWrite(LED3, LOW);
+}
+
+//error handler for both types of input errors
+bool errorHandler(int count, bool noMatch) {
+  //no match
+  if (noMatch) {
+    Serial.print("5 bit code entered does not match to a character. Error, input reset.\n");
+    for(int i = 0; i < 7; i++) {
+      delay(100);
+      digitalWrite(LED2, HIGH);
+      delay(100);
+      digitalWrite(LED2, LOW);
+    }
     delay(delayVal);
-    //add LED control code here later?
+    return false;
+  }
+
+  //overflow
+  if (count > 5) {
+    Serial.print("More than 5 bits entered. Error, input reset.\n");
+    for(int i = 0; i < 7; i++) {
+      delay(100);
+      digitalWrite(LED2, HIGH);
+      delay(100);
+      digitalWrite(LED2, LOW);
+    }
+    delay(delayVal);
     return false;
   } else {
     return true;
   }
-}
-
-//error handler for unrecognized input
-void errorHandleNoMatch() {
-  Serial.print("5 bit code entered does not match to a character. Error, input reset.");
-  delay(delayVal);
-  //add LED control code here later?
 }
 
 //binary to char converter
@@ -111,7 +139,7 @@ char bitConvert(int key, bool capFlag) {
       case 26: converted = 'Z'; break;
       default:
         converted = NULL;
-        errorHandleNoMatch();
+        errorHandler(0, true);
     }
   } else {
     switch(key) {
@@ -143,11 +171,12 @@ char bitConvert(int key, bool capFlag) {
       case 26: converted = 'z'; break;
       default:
         converted = NULL;
-        errorHandleNoMatch();
+        errorHandler(0, true);
     }
   }
   return converted;
 }
+
 
 
 
