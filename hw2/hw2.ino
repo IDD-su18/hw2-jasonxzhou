@@ -41,8 +41,8 @@ void loop() {
     
     if (digitalRead(fifth) == LOW) {
       Serial.print(" ");
-      key = -1;
       convertFlag = false;
+      key = -1;
       delay(delayVal);
       break;
     }
