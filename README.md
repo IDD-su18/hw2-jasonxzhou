@@ -12,6 +12,8 @@ User Guide:
 Enter the binary code of the letter you wish to enter using your index (0) and middle (1) fingers, then press the enter key on your fourth finger. The fifth finger enters a space.
 To toggle CapsLock, press the enter key either prior to entering a character, and after the previous character has been entered.
 
+Technical Information: 
+
 Index Finger: Bit 0 Key
 
 Middle Finger: Bit 1 Key
@@ -20,10 +22,7 @@ Fourth Finger: Enter Key/CapsLock Toggle
 
 Fifth Finger: Space Key
 
-
-
-
-Char-to-Binary Chart
+Char-to-Binary Chart:
 
 a: 1
 
