@@ -1,11 +1,11 @@
 //global declarations
 int second = A0; //0b0 key
-int third = A1; //0b1 key
-int fourth = A2; //enter key
-int fifth = A3; //space key
-int LED1 = A4; //capsLock LED
-int LED2 = A5; //error LED
-int LED3 = 24; //okay LED
+int third = A2; //0b1 key
+int fourth = A4; //enter key
+int fifth = 24; //space key
+int LED1 = 23; //capsLock LED
+int LED2 = 0; //error LED
+int LED3 = 1; //okay LED
 int delayVal = 175; //delay value
 bool capFlag = false; //capsLock
 
