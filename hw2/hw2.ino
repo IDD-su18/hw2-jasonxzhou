@@ -1,12 +1,12 @@
-//global declarations
+//global declarationxxs
 int second = A0; //0b0 key
 int third = A2; //0b1 key
 int fourth = A4; //enter key
-int fifth = 24; //space key
+int fifth = 12; //space key
 int LED1 = 23; //capsLock LED
 int LED2 = 0; //error LED
 int LED3 = 1; //okay LED
-int delayVal = 175; //delay value
+int delayVal = 200; //delay value
 bool capFlag = false; //capsLock
 
 
@@ -19,6 +19,21 @@ void setup() {
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
+  //setup light indicator
+  for(int i = 0; i < 5; i++) {
+    digitalWrite(LED1, HIGH);
+    delay(100);
+    digitalWrite(LED2, HIGH);
+    delay(100);
+    digitalWrite(LED3, HIGH);
+    delay(100);
+    digitalWrite(LED1, LOW);
+    delay(100);
+    digitalWrite(LED2, LOW);
+    delay(100);
+    digitalWrite(LED3, LOW);
+    delay(100);
+  }
 }
 
 //main
