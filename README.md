@@ -1,6 +1,7 @@
 # HW2: Text Entry Device
 
 
+# Carpal Typer
 Cameron Riley & Jason Zhou 
 
 IDD Summer 2018
