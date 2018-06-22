@@ -5,27 +5,29 @@ Cameron Riley & Jason Zhou
 IDD Summer 2018
 
 **Homework submission file with write-up/schedmatics/pictures/video etc. are all in "projectsubmission.pdf"**  
+
+**Overview**
 We created a wearable text-entry device and LED interface. Our glove-like device can be worn on and operated by one hand, allowing users to input text by pressing the four buttons located on each of their fingertips without hindering the hand's grasping ability and finger dexterity. Text recognition is implemented using binary.
 
-User Guide:
+**User Guide**
 Enter the binary code of the letter you wish to enter using your index (0) and middle (1) fingers, then press the enter key on your fourth finger. The fifth finger enters a space.
 To toggle CapsLock, press the enter key either prior to entering a character, and after the previous character has been entered.
 
-Technical Information:   
+**Technical Information**
 
-LED Information:  
+*LED Information* 
 Strobe Light Show upon startup  
 Red LED: CapsLock Indicator  
 Yellow LED: Error Indicator  
 Green LED: Successful Character Entered Indicator  
   
-Finger Mappings:     
+*Finger Mappings*   
 Index Finger: Bit 0 Key  
 Middle Finger: Bit 1 Key  
 Fourth Finger: Enter Key/CapsLock Toggle  
 Fifth Finger: Space Key  
 
-Char-to-Binary Chart:  
+*Char-to-Binary Chart* 
 a: 1  
 b: 10  
 c: 11  
